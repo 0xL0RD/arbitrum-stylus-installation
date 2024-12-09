@@ -59,7 +59,7 @@ Los pasos para el set up de desarrollo son, en general, los siguientes:
 7. Comprobación
 
 
-##1. Instalación de la máquina virtual de Ubuntu.
+## 1. Instalación de la máquina virtual de Ubuntu.
 
 Para la instalación inicial de Ubuntu con VirtualBox solo tienes que seguir
 estos pasos (guía oficial):
@@ -71,7 +71,8 @@ Después de toda nueva instalación de un linux, es aconsejable actualizar:
 
 `sudo apt upgrade`
 
-##2. Docker.
+
+## 2. Docker.
 
 Una vez instalada la máquina virtual con Ubuntu, hay que instalar Docker.
 
@@ -86,6 +87,33 @@ Para comprobar que se ha instalado correctamente, ejecutamos:
 ` sudo docker run hello-world`
 
 
+## 3. Rust, cargo y rustup.
 
+La guía oficial para instalar Rust está disponible aquí:
+https://www.rust-lang.org/tools/install
+
+Normalmente, es suficiente con ejecutar:
+
+`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+
+Para comprobar que se ha instalado correctamente, en una NUEVA shell (para
+que se actualice el PATH), ejecutamos:
+
+`rustc --version`
+
+
+## 4. Wasm-ld (LLVM)
+
+Para linkear, necesitamos tener el binario `wasm-ld`, que viene con LLVM.
+
+En Ubuntu 24, es suficiente con:
+
+`sudo apt install lld`
+
+Después de la instalación, comprobamos que ya tenemos ese comando disponible:
+
+`wasm-ld`
+
+(Dará un error diciendo que no le hemos pasado archivos a linkear; es correcto)
 
 
