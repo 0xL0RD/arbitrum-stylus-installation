@@ -58,6 +58,8 @@ Los pasos para el set up de desarrollo son, en general, los siguientes:
 
 7. Comprobación
 
+8. NodeJS
+
 
 ## 1. Instalación de la máquina virtual de Ubuntu.
 
@@ -117,3 +119,73 @@ Después de la instalación, comprobamos que ya tenemos ese comando disponible:
 (Dará un error diciendo que no le hemos pasado archivos a linkear; es correcto)
 
 
+## 5. Wasm-strip (wabt)
+
+Una vez más, para resolver la dependencia, instalamos con apt:
+
+`sudo apt install wabt`
+
+
+## 6. Cargo-Stylus
+
+La instalación es muy sencilla -en principio-. Solo hay que ejecutar el
+siguiente commando:
+
+`cargo install cargo-stylus`
+
+IMPORTANTE: Cuando se ejecuta dentro de un proyecto, puede instalar para la
+versión de Rust que indica la toolchain de ese proyecto. Por ello, es
+recomendable ejecutar el comando señalado FUERA del proyecto.
+
+La instalación de los "crates" de Rust suele hacerse en el directorio:
+
+`$HOME/.cargo`
+
+
+## 7. Comprobación
+
+Para comprobar que la instalación de Arbitrum Stylus ha sido correcta podemos
+intentar compilar un smart contract, por ejemplo, el de Lemon Tips:
+https://github.com/D3Portillo/arbitrum-stylus-starter-c
+
+Los pasos son:
+a) Git clone
+
+b) Nos movemos al nuevo directorio (con `cd`)
+
+b) IMPORTANTE: Inicializamos los submodulos:
+`git submodule update --init --recursive`
+
+c) Compilamos:
+`make`
+
+d) Si da error de `target wasm32 not found`, seteamos:
+`cargo stylus check --wasm-file ./contract.wasm -e https://sepolia-rollup.arbitrum.io/rpc`
+
+e) Comprobamos que sale VERDE:
+`contract size: xxx B`
+`make`
+
+
+## 8. NodeJS
+
+Para desarrollar el frontend, necesitamos `NodeJS`. La guía oficial es:
+https://nodejs.org/en/download/package-manager/current
+
+Elejimos: "Install Node.js [xxxxx (Current)] on [Linux] using [nvm]".
+
+Con la versión última de hoy, nos dará los comandos siguientes:
+
+`
+# installs nvm (Node Version Manager)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+
+# download and install Node.js (you may need to restart the terminal)
+nvm install 23
+
+# verifies the right Node.js version is in the environment
+node -v # should print 'v23.3.0'
+
+# verifies the right npm version is in the environment
+npm -v # should print '10.9.0'
+`
