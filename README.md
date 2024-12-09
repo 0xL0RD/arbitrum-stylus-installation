@@ -31,6 +31,7 @@ cuidados con el software malicioso.
 En esta guia comparto un enlace a la máquina virtual ya configurada; pero, por
 lo dicho, es mucho más seguro que sigas esta guía para configurar la tuya.
 
+
 ## Ordenadores de 42 Madrid
 
 Lo ideal, hubiera sido poder usar para el hackathon los PCs de 42. El problema
@@ -55,7 +56,7 @@ temporal y en cualquier momento nos lo pueden borrar.
 La máquina virtual ya configurada, lista para desarrollar puede descargarse del
 enlace de Google Drive de abajo. Solo le falta instalar el IDE de tu
 preferencia:
-https://drive.google.com/drive/folders/1WZWzLG8VFqFWu2QpfwL-HyCpaFfqvkRU?usp=sharing
+https://drive.google.com/drive/folders/1ODEypUfMFd4YbbvdzSEQL3rbeGkfARTe?usp=sharing
 
 Los pasos para el set up de desarrollo son, en general, los siguientes:
 
