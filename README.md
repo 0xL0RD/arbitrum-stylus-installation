@@ -151,6 +151,9 @@ En los PCs de 42 no disponemos de wasm-ld. Pero podemos descargar los binarios
 del repo oficial:
 https://github.com/llvm/llvm-project/releases/tag/llvmorg-19.1.5
 
+Los ".so" (share objects), hay que parsarselos por "LD_LIBRARY_PATH":
+https://stackoverflow.com/questions/18547551/linux-so-file-not-found
+
 
 ## 5. Wasm-strip (wabt)
 
