@@ -22,10 +22,6 @@ inicial de todas las dependencias.
 El proceso más sencillo -según mi opinión- es configurar una máquina virtual,
 con la última versión de Ubuntu.
 
-Lo ideal, hubiera sido poder usar los PCs de 42 para el hackathon. El problema
-que se plantea es que no hay privilegios de root, y que solo tenemos disponible
-5gB. Todo ello complita el set up inicial. No obstante, intentaré dar algunos
-trucos -si me da tiempo-.
 
 ## CRYTO risks
 
@@ -34,6 +30,25 @@ cuidados con el software malicioso.
 
 En esta guia comparto un enlace a la máquina virtual ya configurada; pero, por
 lo dicho, es mucho más seguro que sigas esta guía para configurar la tuya.
+
+## Ordenadores de 42 Madrid
+
+Lo ideal, hubiera sido poder usar para el hackathon los PCs de 42. El problema
+que se plantea es que no hay privilegios de root, y que solo tenemos disponible
+5gB. Todo ello complita el set up inicial. No obstante, intentaré dar algunos
+trucos -si me da tiempo-.
+
+En la guía hago referencia a posibles problemas. Muchos de ellos tratan de
+resolver las limitaciones de configurar el entorno de trabajo en los ordenadores
+de 42 Madrid.
+
+No obstante, hay que tener en cuenta que solo disponeblos de 5 gigas, pero
+la instalación de Rust (por el toolchain) ocupa más de 1,5 gigas; Stylus ocupa
+otro tanto, por lo que es recomendable instalarlos en un USB drive...
+
+También se pueden instalar en el "goinfre", pero como sabemos, es un directorio
+temporal y en cualquier momento nos lo pueden borrar.
+
 
 ## Pasos en general
 
@@ -73,6 +88,9 @@ Después de toda nueva instalación de un linux, es aconsejable actualizar:
 
 `sudo apt upgrade`
 
+Instalamos `cc` -lo require Stylus-:
+
+`sudo apt install gcc`
 
 ## 2. Docker.
 
@@ -104,6 +122,14 @@ que se actualice el PATH), ejecutamos:
 `rustc --version`
 
 
+### Ordendadores de 42
+
+Para instalar Rust en goinfre o en un pendrive, podéis seguir esta guía:
+https://github.com/rust-lang/rustup/issues/618
+
+Consiste en setear la variable `CARGO_HOME` con el path donde queremos instalar.
+
+
 ## 4. Wasm-ld (LLVM)
 
 Para linkear, necesitamos tener el binario `wasm-ld`, que viene con LLVM.
@@ -118,12 +144,33 @@ Después de la instalación, comprobamos que ya tenemos ese comando disponible:
 
 (Dará un error diciendo que no le hemos pasado archivos a linkear; es correcto)
 
+### Ordendadores de 42
+
+En los PCs de 42 no disponemos de wasm-ld. Pero podemos descargar los binarios
+del repo oficial:
+https://github.com/llvm/llvm-project/releases/tag/llvmorg-19.1.5
+
 
 ## 5. Wasm-strip (wabt)
 
 Una vez más, para resolver la dependencia, instalamos con apt:
 
 `sudo apt install wabt`
+
+### Ordendadores de 42
+
+Necesitaremos compilar desde el repo oficial de wabt:
+https://github.com/WebAssembly/wabt
+
+Tal y como indica, solo es necesario:
+$ git clone --recursive https://github.com/WebAssembly/wabt
+$ cd wabt
+$ git submodule update --init
+
+$ mkdir build
+$ cd build
+$ cmake ..
+$ cmake --build .
 
 
 ## 6. Cargo-Stylus
@@ -141,6 +188,37 @@ La instalación de los "crates" de Rust suele hacerse en el directorio:
 
 `$HOME/.cargo`
 
+La instalación puede dar el siguiente error:
+
+` cargo:warning=Could not find directory of OpenSSL installation, and this `-sys` crate cannot proceed without this knowledge. If OpenSSL is installed and this crate had trouble finding it,  you can set the `OPENSSL_DIR` environment variable for the compilation process. See stderr section below for further information.`
+
+Entonces, instalaremos pkg-config y los headers de OpenSSL:
+
+`sudo apt install pkg-config`
+
+`sudo apt install libssl-dev`
+
+### Ordendadores de 42: USB drive
+
+Si queremos instalar en un path específico (fuera de nuestro home), usarmos
+`--root`:
+
+`cargo install cargo-stylus --root /path/to/some/where`
+
+### Ordendadores de 42: OpenSSL
+
+En los PCs de 42 no tenemos los headers de OpenSSL. Para solucionarlo, podemos
+modificar el ".toml" del crate de Stylus para que compile él mismo OpenSSL.
+Es lo que se conoce como "vendored":
+https://forums.freebsd.org/threads/rust-cargo-openssl-vendored-how-to-use-the-ssl-from-the-os.91483/
+
+Consiste en añadir al ".toml" la dependencia:
+
+`openssl = { version = "0.10", features = ["vendored"] }`
+
+En mi PC, el ".toml" se encuentra en:
+`/home/MYUSER/.cargo/registry/src/index.crates.io-6f17d22bba15001f/cargo-stylus-0.5.6/Cargo.toml`
+
 
 ## 7. Comprobación
 
@@ -155,17 +233,20 @@ a) Git clone
 b) Nos movemos al nuevo directorio (con `cd`)
 
 b) IMPORTANTE: Inicializamos los submodulos:
+
 `git submodule update --init --recursive`
 
 c) Compilamos:
+
 `make`
 
 d) Si da error de `target wasm32 not found`, seteamos:
+
 `cargo stylus check --wasm-file ./contract.wasm -e https://sepolia-rollup.arbitrum.io/rpc`
 
 e) Comprobamos que sale VERDE:
+
 `contract size: xxx B`
-`make`
 
 
 ## 8. NodeJS
