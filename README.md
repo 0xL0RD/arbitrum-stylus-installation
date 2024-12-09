@@ -93,6 +93,12 @@ Instalamos `cc` -lo require Stylus-:
 
 `sudo apt install gcc`
 
+Instalamos `clang` -lo require el Makefile del repo que usamos de ejemplo
+de D3Portillo-:
+
+`sudo apt install clang`
+
+
 ## 2. Docker.
 
 Una vez instalada la máquina virtual con Ubuntu, hay que instalar Docker.
@@ -151,8 +157,28 @@ En los PCs de 42 no disponemos de wasm-ld. Pero podemos descargar los binarios
 del repo oficial:
 https://github.com/llvm/llvm-project/releases/tag/llvmorg-19.1.5
 
-Los ".so" (share objects), hay que parsarselos por "LD_LIBRARY_PATH":
+Los ".so" (share objects), hay que parsárselos por "LD_LIBRARY_PATH":
 https://stackoverflow.com/questions/18547551/linux-so-file-not-found
+
+Ejemplo de problema en los PCs de 42: `wasm-ld` requiere en ejecución 
+`libtinfo.so.5`, que es una librería que está en el paquete `libncurses5`; pero
+no tenemos permisos para instalarlo. La solución es:
+
+a) Descargamos el ".deb". Por ejemplo:
+https://security.ubuntu.com/ubuntu/pool/main//n/ncurses/
+
+b) Hacemos unpack del ".deb", y extraemos los ".xz":
+
+`ar vx libncurses5_xxx.deb`
+
+`tar xvf control.tar.xz`
+`tar xvf data.tar.xz`
+
+c) Copiamos el ".so" que necesitamos a una carpeta "lib"
+
+d) Seteamos "LD_LIBRARY_PATH" a esa carpeta (añadimos a `.zshrc`):
+
+`export LD_LIBRARY_PATH=/path/to/lib/folder`
 
 
 ## 5. Wasm-strip (wabt)
