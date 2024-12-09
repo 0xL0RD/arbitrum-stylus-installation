@@ -55,7 +55,7 @@ temporal y en cualquier momento nos lo pueden borrar.
 
 La máquina virtual ya configurada, lista para desarrollar puede descargarse del
 enlace de Google Drive de abajo. Solo le falta instalar el IDE de tu
-preferencia:
+preferencia (user: verite / pass: hack.lemon.tips):
 https://drive.google.com/drive/folders/1ODEypUfMFd4YbbvdzSEQL3rbeGkfARTe?usp=sharing
 
 Los pasos para el set up de desarrollo son, en general, los siguientes:
