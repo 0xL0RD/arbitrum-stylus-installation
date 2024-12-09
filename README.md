@@ -149,6 +149,7 @@ intentar compilar un smart contract, por ejemplo, el de Lemon Tips:
 https://github.com/D3Portillo/arbitrum-stylus-starter-c
 
 Los pasos son:
+
 a) Git clone
 
 b) Nos movemos al nuevo directorio (con `cd`)
